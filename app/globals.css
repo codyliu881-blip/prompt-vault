@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0b0e14; /* 页面底色，近黑的深蓝灰 */
+  --color-surface: #12161f; /* 侧栏 / 面板 */
+  --color-card: #171c27; /* 卡片 */
+  --color-card-hover: #1d2330; /* 卡片悬停 */
+  --color-border: #262d3b; /* 分隔线，低对比 */
+  --color-text: #e6e9ef; /* 主文字 */
+  --color-text-dim: #8b93a5; /* 次要文字 / 元信息 */
+  --color-accent: #e8b45a; /* 主强调：琥珀金 */
+  --color-accent-fg: #1a1305;
+  --color-image: #8b7cf6; /* 作图类标识色：紫罗兰 */
+  --color-video: #4fd1c5; /* 视频类标识色：青绿 */
+  --color-danger: #f26d6d; /* 删除 / 警告 */
+
+  --font-sans: var(--font-inter), var(--font-noto-sans-sc), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+
+  --radius-card: 10px;
+  --radius-btn: 8px;
+}
+
+html,
+body {
+  height: 100%;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 35%, transparent);
+}
+
+/* 细滚动条，暗色主题 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
