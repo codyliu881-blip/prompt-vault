@@ -123,6 +123,9 @@ function DetailPanelForm({
 
   const categoryOptions = categories.filter((c) => c.type === draft.type);
 
+  const titleMissing = mode === "create" && !draft.title.trim();
+  const bodyMissing = mode === "create" && !draft.body.trim();
+
   function addTag() {
     const t = tagInput.trim();
     if (t && !draft.tags.includes(t)) {
@@ -243,8 +246,12 @@ function DetailPanelForm({
         <input
           value={draft.title}
           onChange={(e) => setDraft((d) => ({ ...d, title: e.target.value }))}
-          placeholder="标题"
-          className="w-full border-none bg-transparent text-lg font-semibold text-text outline-none placeholder:text-text-dim"
+          placeholder="标题（必填）"
+          className={`w-full bg-transparent text-lg font-semibold text-text outline-none placeholder:text-text-dim ${
+            titleMissing && draft.body.trim()
+              ? "border-b border-danger placeholder:text-danger"
+              : "border-none"
+          }`}
         />
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -365,13 +372,24 @@ function DetailPanelForm({
 
       <div className="flex items-center gap-2 border-t border-border px-5 py-3">
         {mode === "create" ? (
-          <button
-            disabled={saving || !draft.title.trim() || !draft.body.trim()}
-            onClick={handleSubmitCreate}
-            className="ml-auto rounded-btn bg-accent px-4 py-2 text-sm font-medium text-accent-fg transition hover:brightness-110 disabled:opacity-50"
-          >
-            创建
-          </button>
+          <>
+            {!saving && (titleMissing || bodyMissing) && (
+              <span className="text-xs text-danger">
+                {titleMissing && bodyMissing
+                  ? "请填写标题和正文"
+                  : titleMissing
+                    ? "请填写标题"
+                    : "请填写正文"}
+              </span>
+            )}
+            <button
+              disabled={saving || titleMissing || bodyMissing}
+              onClick={handleSubmitCreate}
+              className="ml-auto rounded-btn bg-accent px-4 py-2 text-sm font-medium text-accent-fg transition hover:brightness-110 disabled:opacity-50"
+            >
+              创建
+            </button>
+          </>
         ) : (
           <>
             <button
